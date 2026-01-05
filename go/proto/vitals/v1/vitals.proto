@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package vitals.v1;
+
+option go_package = "cadence-vitals-interview/proto/vitals/v1;vitalsv1";
+
+enum AlertStatus {
+  ALERT_STATUS_ACTIVE = 0;
+  ALERT_STATUS_RESOLVED = 1;
+  ALERT_STATUS_AUTO_RESOLVED = 2;
+}
+
+message IngestVitalRequest {
+  string patient_id = 1;
+  int32 systolic = 2;
+  int32 diastolic = 3;
+  int64 taken_at = 4;
+}
+
+message IngestVitalResponse {
+  Vital vital = 1;
+}
+
+message ListAlertsRequest {
+  string patient_id = 1;
+}
+
+message ListAlertsResponse {
+  repeated Alert alerts = 1;
+}
+
+message Vital {
+  int64 id = 1;
+  string patient_id = 2;
+  int32 systolic = 3;
+  int32 diastolic = 4;
+  int64 taken_at = 5;
+  int64 received_at = 6;
+}
+
+message Alert {
+  int64 id = 1;
+  Vital vital = 2;
+  string reason = 3;
+  int64 created_at = 4;
+  AlertStatus status = 5;
+}
+
+service VitalsService {
+  rpc IngestVital(IngestVitalRequest) returns (IngestVitalResponse);
+  rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse);
+}
