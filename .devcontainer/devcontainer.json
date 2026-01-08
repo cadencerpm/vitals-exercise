@@ -12,7 +12,8 @@
           "golang.go",
           "zxh404.vscode-proto3",
           "esbenp.prettier-vscode",
-          "eamodio.gitlens"
+          "eamodio.gitlens",
+          "ms-vsliveshare.vsliveshare"
         ],
         "settings": {
           "go.useLanguageServer": true,
