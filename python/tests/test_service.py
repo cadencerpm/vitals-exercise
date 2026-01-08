@@ -72,3 +72,33 @@ def test_service_list_vitals_filters_by_patient() -> None:
     vitals = service.list_vitals("patient-1")
     assert len(vitals) == 1
     assert vitals[0].patient_id == "patient-1"
+
+
+def test_service_ingest_is_idempotent_when_publish_times_out() -> None:
+    class FlakyPublisher:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def publish(self, _event) -> None:
+            self.calls += 1
+            if self.calls == 1:
+                raise TimeoutError("publish timed out")
+
+    store = InMemoryStore()
+    publisher = FlakyPublisher()
+    service = Service(store, publisher)
+
+    taken_at = datetime.now(timezone.utc) - timedelta(minutes=2)
+
+    with pytest.raises(TimeoutError):
+        service.ingest_vital("patient-1", 120, 80, taken_at)
+
+    vitals_after_failure = store.list_vitals()
+    assert len(vitals_after_failure) == 1
+    first_id = vitals_after_failure[0].id
+
+    stored = service.ingest_vital("patient-1", 120, 80, taken_at)
+    vitals = store.list_vitals()
+    assert len(vitals) == 1
+    assert vitals[0].id == first_id
+    assert stored.id == first_id
