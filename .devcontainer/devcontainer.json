@@ -10,10 +10,11 @@
       "vscode": {
         "extensions": [
           "golang.go",
-          "zxh404.vscode-proto3",
+          "drblury.protobuf-vsc",
           "esbenp.prettier-vscode",
           "eamodio.gitlens",
-          "ms-vsliveshare.vsliveshare"
+          "ms-vsliveshare.vsliveshare",
+          "ms-vscode.makefile-tools"
         ],
         "settings": {
           "go.useLanguageServer": true,
