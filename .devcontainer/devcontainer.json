@@ -1,0 +1,26 @@
+{
+    "name": "Vitals Exercise",
+    "image": "mcr.microsoft.com/devcontainers/go:1.24",
+    "features": {
+      "ghcr.io/devcontainers-contrib/features/protoc:1": {},
+      "ghcr.io/devcontainers/features/node:1": {},
+      "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "golang.go",
+          "zxh404.vscode-proto3",
+          "esbenp.prettier-vscode",
+          "eamodio.gitlens"
+        ],
+        "settings": {
+          "go.useLanguageServer": true,
+          "go.lintTool": "golangci-lint",
+          "go.lintFlags": ["--fast"]
+        }
+      }
+    },
+    "postCreateCommand": "cd go && go mod download && make setup && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && go install github.com/air-verse/air@latest && npm install -g @anthropic-ai/claude-code @openai/codex",
+    "remoteUser": "vscode"
+  }
