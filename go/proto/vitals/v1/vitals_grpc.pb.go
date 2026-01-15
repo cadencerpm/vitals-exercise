@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	VitalsService_IngestVital_FullMethodName = "/vitals.v1.VitalsService/IngestVital"
 	VitalsService_ListAlerts_FullMethodName  = "/vitals.v1.VitalsService/ListAlerts"
+	VitalsService_ListVitals_FullMethodName  = "/vitals.v1.VitalsService/ListVitals"
 )
 
 // VitalsServiceClient is the client API for VitalsService service.
@@ -29,6 +30,7 @@ const (
 type VitalsServiceClient interface {
 	IngestVital(ctx context.Context, in *IngestVitalRequest, opts ...grpc.CallOption) (*IngestVitalResponse, error)
 	ListAlerts(ctx context.Context, in *ListAlertsRequest, opts ...grpc.CallOption) (*ListAlertsResponse, error)
+	ListVitals(ctx context.Context, in *ListVitalsRequest, opts ...grpc.CallOption) (*ListVitalsResponse, error)
 }
 
 type vitalsServiceClient struct {
@@ -59,12 +61,23 @@ func (c *vitalsServiceClient) ListAlerts(ctx context.Context, in *ListAlertsRequ
 	return out, nil
 }
 
+func (c *vitalsServiceClient) ListVitals(ctx context.Context, in *ListVitalsRequest, opts ...grpc.CallOption) (*ListVitalsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListVitalsResponse)
+	err := c.cc.Invoke(ctx, VitalsService_ListVitals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VitalsServiceServer is the server API for VitalsService service.
 // All implementations must embed UnimplementedVitalsServiceServer
 // for forward compatibility.
 type VitalsServiceServer interface {
 	IngestVital(context.Context, *IngestVitalRequest) (*IngestVitalResponse, error)
 	ListAlerts(context.Context, *ListAlertsRequest) (*ListAlertsResponse, error)
+	ListVitals(context.Context, *ListVitalsRequest) (*ListVitalsResponse, error)
 	mustEmbedUnimplementedVitalsServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedVitalsServiceServer) IngestVital(context.Context, *IngestVita
 }
 func (UnimplementedVitalsServiceServer) ListAlerts(context.Context, *ListAlertsRequest) (*ListAlertsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAlerts not implemented")
+}
+func (UnimplementedVitalsServiceServer) ListVitals(context.Context, *ListVitalsRequest) (*ListVitalsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListVitals not implemented")
 }
 func (UnimplementedVitalsServiceServer) mustEmbedUnimplementedVitalsServiceServer() {}
 func (UnimplementedVitalsServiceServer) testEmbeddedByValue()                       {}
@@ -138,6 +154,24 @@ func _VitalsService_ListAlerts_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VitalsService_ListVitals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVitalsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VitalsServiceServer).ListVitals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: VitalsService_ListVitals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VitalsServiceServer).ListVitals(ctx, req.(*ListVitalsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // VitalsService_ServiceDesc is the grpc.ServiceDesc for VitalsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var VitalsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAlerts",
 			Handler:    _VitalsService_ListAlerts_Handler,
+		},
+		{
+			MethodName: "ListVitals",
+			Handler:    _VitalsService_ListVitals_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

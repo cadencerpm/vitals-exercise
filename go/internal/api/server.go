@@ -56,6 +56,24 @@ func (s *Server) ListAlerts(ctx context.Context, req *vitalsv1.ListAlertsRequest
 	return resp, nil
 }
 
+func (s *Server) ListVitals(ctx context.Context, req *vitalsv1.ListVitalsRequest) (*vitalsv1.ListVitalsResponse, error) {
+	var patientID string
+	if req != nil {
+		patientID = req.GetPatientId()
+	}
+	vitals, err := s.service.ListVitals(ctx, patientID)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	resp := &vitalsv1.ListVitalsResponse{
+		Vitals: make([]*vitalsv1.Vital, 0, len(vitals)),
+	}
+	for _, vital := range vitals {
+		resp.Vitals = append(resp.Vitals, toProtoVital(vital))
+	}
+	return resp, nil
+}
+
 func toProtoVital(vital app.Vital) *vitalsv1.Vital {
 	return &vitalsv1.Vital{
 		Id:         vital.ID,

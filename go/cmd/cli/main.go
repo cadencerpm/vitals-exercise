@@ -23,6 +23,8 @@ func main() {
 		insertVitalCmd(os.Args[2:])
 	case "list-alerts":
 		listAlertsCmd(os.Args[2:])
+	case "list-vitals":
+		listVitalsCmd(os.Args[2:])
 	default:
 		usage()
 		os.Exit(1)
@@ -92,6 +94,34 @@ func listAlertsCmd(args []string) {
 	}
 }
 
+func listVitalsCmd(args []string) {
+	fs := flag.NewFlagSet("list-vitals", flag.ExitOnError)
+	addr := fs.String("addr", "127.0.0.1:50051", "gRPC server address")
+	patientID := fs.String("patient", "", "patient identifier")
+	fs.Parse(args)
+
+	client, cleanup := newClient(*addr)
+	defer cleanup()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	resp, err := client.ListVitals(ctx, &vitalsv1.ListVitalsRequest{PatientId: *patientID})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "list vitals failed: %v\n", err)
+		os.Exit(1)
+	}
+
+	if len(resp.GetVitals()) == 0 {
+		fmt.Println("no vitals")
+		return
+	}
+
+	for _, vital := range resp.GetVitals() {
+		fmt.Printf("vital id=%d patient=%s bp=%d/%d taken_at=%d received_at=%d\n", vital.GetId(), vital.GetPatientId(), vital.GetSystolic(), vital.GetDiastolic(), vital.GetTakenAt(), vital.GetReceivedAt())
+	}
+}
+
 func newClient(addr string) (vitalsv1.VitalsServiceClient, func()) {
 	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -106,4 +136,5 @@ func usage() {
 	fmt.Fprintln(os.Stderr, "usage:")
 	fmt.Fprintln(os.Stderr, "  cli insert-vital --patient <id> --systolic <value> --diastolic <value> [--taken-at <unix>] [--addr host:port]")
 	fmt.Fprintln(os.Stderr, "  cli list-alerts [--patient <id>] [--addr host:port]")
+	fmt.Fprintln(os.Stderr, "  cli list-vitals [--patient <id>] [--addr host:port]")
 }

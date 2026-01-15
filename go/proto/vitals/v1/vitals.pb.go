@@ -270,6 +270,94 @@ func (x *ListAlertsResponse) GetAlerts() []*Alert {
 	return nil
 }
 
+type ListVitalsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PatientId     string                 `protobuf:"bytes,1,opt,name=patient_id,json=patientId,proto3" json:"patient_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListVitalsRequest) Reset() {
+	*x = ListVitalsRequest{}
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListVitalsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListVitalsRequest) ProtoMessage() {}
+
+func (x *ListVitalsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListVitalsRequest.ProtoReflect.Descriptor instead.
+func (*ListVitalsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListVitalsRequest) GetPatientId() string {
+	if x != nil {
+		return x.PatientId
+	}
+	return ""
+}
+
+type ListVitalsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Vitals        []*Vital               `protobuf:"bytes,1,rep,name=vitals,proto3" json:"vitals,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListVitalsResponse) Reset() {
+	*x = ListVitalsResponse{}
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListVitalsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListVitalsResponse) ProtoMessage() {}
+
+func (x *ListVitalsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListVitalsResponse.ProtoReflect.Descriptor instead.
+func (*ListVitalsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ListVitalsResponse) GetVitals() []*Vital {
+	if x != nil {
+		return x.Vitals
+	}
+	return nil
+}
+
 type Vital struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -284,7 +372,7 @@ type Vital struct {
 
 func (x *Vital) Reset() {
 	*x = Vital{}
-	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[4]
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -296,7 +384,7 @@ func (x *Vital) String() string {
 func (*Vital) ProtoMessage() {}
 
 func (x *Vital) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[4]
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -309,7 +397,7 @@ func (x *Vital) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Vital.ProtoReflect.Descriptor instead.
 func (*Vital) Descriptor() ([]byte, []int) {
-	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{4}
+	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Vital) GetId() int64 {
@@ -367,7 +455,7 @@ type Alert struct {
 
 func (x *Alert) Reset() {
 	*x = Alert{}
-	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[5]
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -379,7 +467,7 @@ func (x *Alert) String() string {
 func (*Alert) ProtoMessage() {}
 
 func (x *Alert) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[5]
+	mi := &file_proto_vitals_v1_vitals_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -392,7 +480,7 @@ func (x *Alert) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Alert.ProtoReflect.Descriptor instead.
 func (*Alert) Descriptor() ([]byte, []int) {
-	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{5}
+	return file_proto_vitals_v1_vitals_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Alert) GetId() int64 {
@@ -447,7 +535,12 @@ const file_proto_vitals_v1_vitals_proto_rawDesc = "" +
 	"\n" +
 	"patient_id\x18\x01 \x01(\tR\tpatientId\">\n" +
 	"\x12ListAlertsResponse\x12(\n" +
-	"\x06alerts\x18\x01 \x03(\v2\x10.vitals.v1.AlertR\x06alerts\"\xac\x01\n" +
+	"\x06alerts\x18\x01 \x03(\v2\x10.vitals.v1.AlertR\x06alerts\"2\n" +
+	"\x11ListVitalsRequest\x12\x1d\n" +
+	"\n" +
+	"patient_id\x18\x01 \x01(\tR\tpatientId\">\n" +
+	"\x12ListVitalsResponse\x12(\n" +
+	"\x06vitals\x18\x01 \x03(\v2\x10.vitals.v1.VitalR\x06vitals\"\xac\x01\n" +
 	"\x05Vital\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1d\n" +
 	"\n" +
@@ -467,11 +560,13 @@ const file_proto_vitals_v1_vitals_proto_rawDesc = "" +
 	"\vAlertStatus\x12\x17\n" +
 	"\x13ALERT_STATUS_ACTIVE\x10\x00\x12\x19\n" +
 	"\x15ALERT_STATUS_RESOLVED\x10\x01\x12\x1e\n" +
-	"\x1aALERT_STATUS_AUTO_RESOLVED\x10\x022\xa8\x01\n" +
+	"\x1aALERT_STATUS_AUTO_RESOLVED\x10\x022\xf3\x01\n" +
 	"\rVitalsService\x12L\n" +
 	"\vIngestVital\x12\x1d.vitals.v1.IngestVitalRequest\x1a\x1e.vitals.v1.IngestVitalResponse\x12I\n" +
 	"\n" +
-	"ListAlerts\x12\x1c.vitals.v1.ListAlertsRequest\x1a\x1d.vitals.v1.ListAlertsResponseB3Z1cadence-vitals-interview/proto/vitals/v1;vitalsv1b\x06proto3"
+	"ListAlerts\x12\x1c.vitals.v1.ListAlertsRequest\x1a\x1d.vitals.v1.ListAlertsResponse\x12I\n" +
+	"\n" +
+	"ListVitals\x12\x1c.vitals.v1.ListVitalsRequest\x1a\x1d.vitals.v1.ListVitalsResponseB3Z1cadence-vitals-interview/proto/vitals/v1;vitalsv1b\x06proto3"
 
 var (
 	file_proto_vitals_v1_vitals_proto_rawDescOnce sync.Once
@@ -486,30 +581,35 @@ func file_proto_vitals_v1_vitals_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_vitals_v1_vitals_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_vitals_v1_vitals_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_vitals_v1_vitals_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_proto_vitals_v1_vitals_proto_goTypes = []any{
 	(AlertStatus)(0),            // 0: vitals.v1.AlertStatus
 	(*IngestVitalRequest)(nil),  // 1: vitals.v1.IngestVitalRequest
 	(*IngestVitalResponse)(nil), // 2: vitals.v1.IngestVitalResponse
 	(*ListAlertsRequest)(nil),   // 3: vitals.v1.ListAlertsRequest
 	(*ListAlertsResponse)(nil),  // 4: vitals.v1.ListAlertsResponse
-	(*Vital)(nil),               // 5: vitals.v1.Vital
-	(*Alert)(nil),               // 6: vitals.v1.Alert
+	(*ListVitalsRequest)(nil),   // 5: vitals.v1.ListVitalsRequest
+	(*ListVitalsResponse)(nil),  // 6: vitals.v1.ListVitalsResponse
+	(*Vital)(nil),               // 7: vitals.v1.Vital
+	(*Alert)(nil),               // 8: vitals.v1.Alert
 }
 var file_proto_vitals_v1_vitals_proto_depIdxs = []int32{
-	5, // 0: vitals.v1.IngestVitalResponse.vital:type_name -> vitals.v1.Vital
-	6, // 1: vitals.v1.ListAlertsResponse.alerts:type_name -> vitals.v1.Alert
-	5, // 2: vitals.v1.Alert.vital:type_name -> vitals.v1.Vital
-	0, // 3: vitals.v1.Alert.status:type_name -> vitals.v1.AlertStatus
-	1, // 4: vitals.v1.VitalsService.IngestVital:input_type -> vitals.v1.IngestVitalRequest
-	3, // 5: vitals.v1.VitalsService.ListAlerts:input_type -> vitals.v1.ListAlertsRequest
-	2, // 6: vitals.v1.VitalsService.IngestVital:output_type -> vitals.v1.IngestVitalResponse
-	4, // 7: vitals.v1.VitalsService.ListAlerts:output_type -> vitals.v1.ListAlertsResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	7, // 0: vitals.v1.IngestVitalResponse.vital:type_name -> vitals.v1.Vital
+	8, // 1: vitals.v1.ListAlertsResponse.alerts:type_name -> vitals.v1.Alert
+	7, // 2: vitals.v1.ListVitalsResponse.vitals:type_name -> vitals.v1.Vital
+	7, // 3: vitals.v1.Alert.vital:type_name -> vitals.v1.Vital
+	0, // 4: vitals.v1.Alert.status:type_name -> vitals.v1.AlertStatus
+	1, // 5: vitals.v1.VitalsService.IngestVital:input_type -> vitals.v1.IngestVitalRequest
+	3, // 6: vitals.v1.VitalsService.ListAlerts:input_type -> vitals.v1.ListAlertsRequest
+	5, // 7: vitals.v1.VitalsService.ListVitals:input_type -> vitals.v1.ListVitalsRequest
+	2, // 8: vitals.v1.VitalsService.IngestVital:output_type -> vitals.v1.IngestVitalResponse
+	4, // 9: vitals.v1.VitalsService.ListAlerts:output_type -> vitals.v1.ListAlertsResponse
+	6, // 10: vitals.v1.VitalsService.ListVitals:output_type -> vitals.v1.ListVitalsResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_proto_vitals_v1_vitals_proto_init() }
@@ -523,7 +623,7 @@ func file_proto_vitals_v1_vitals_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_vitals_v1_vitals_proto_rawDesc), len(file_proto_vitals_v1_vitals_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

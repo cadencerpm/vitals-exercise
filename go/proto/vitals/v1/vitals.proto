@@ -29,6 +29,14 @@ message ListAlertsResponse {
   repeated Alert alerts = 1;
 }
 
+message ListVitalsRequest {
+  string patient_id = 1;
+}
+
+message ListVitalsResponse {
+  repeated Vital vitals = 1;
+}
+
 message Vital {
   int64 id = 1;
   string patient_id = 2;
@@ -49,4 +57,5 @@ message Alert {
 service VitalsService {
   rpc IngestVital(IngestVitalRequest) returns (IngestVitalResponse);
   rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse);
+  rpc ListVitals(ListVitalsRequest) returns (ListVitalsResponse);
 }

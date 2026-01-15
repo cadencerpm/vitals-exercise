@@ -18,7 +18,8 @@ High-level vital lifecycle:
 - The service validates and stores the vital with a server-side received timestamp.
 - An event is published and the background worker evaluates thresholds.
 - If abnormal, an alert is created and stored; `ListAlerts` reads from that store.
-- Everything is in-memory, so restarting the server clears vitals/alerts.
+
+Note: Everything is in-memory, so restarting the server clears vitals/alerts.
 
 ## Setup
 
@@ -48,7 +49,10 @@ make proto
 
 ```bash
 make server
-make cli insert-vital --patient patient-1 --systolic 120 --diastolic 80
+go run ./cmd/cli insert-vital --patient patient-1 --systolic 120 --diastolic 80  # Insert vital 120/80 (normal)
+go run ./cmd/cli insert-vital --patient patient-1 --systolic 190 --diastolic 130  # Insert vital 190/130 (abnormal)
+go run ./cmd/cli list-vitals --patient patient-1
+go run ./cmd/cli list-alerts --patient patient-1
 make cli list-alerts
 ```
 

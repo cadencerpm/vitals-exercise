@@ -77,3 +77,21 @@ func (s *Service) ListAlerts(ctx context.Context, patientID string) ([]Alert, er
 	}
 	return filtered, nil
 }
+
+func (s *Service) ListVitals(ctx context.Context, patientID string) ([]Vital, error) {
+	vitals, err := s.store.ListVitals(ctx)
+	if err != nil {
+		return nil, err
+	}
+	patientID = strings.TrimSpace(patientID)
+	if patientID == "" {
+		return vitals, nil
+	}
+	filtered := make([]Vital, 0, len(vitals))
+	for _, vital := range vitals {
+		if vital.PatientID == patientID {
+			filtered = append(filtered, vital)
+		}
+	}
+	return filtered, nil
+}
