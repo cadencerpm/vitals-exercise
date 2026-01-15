@@ -21,7 +21,37 @@ High-level vital lifecycle:
 
 Note: Everything is in-memory, so restarting the server clears vitals/alerts.
 
-## Setup
+## Running the App
+
+**1. Start the server:**
+```bash
+make server
+```
+
+**2. In another terminal, use the CLI commands:**
+```bash
+# Insert a normal vital (120/80)
+go run ./cmd/cli insert-vital --patient patient-1 --systolic 120 --diastolic 80
+
+# Insert an abnormal vital (190/130) - this will trigger an alert
+go run ./cmd/cli insert-vital --patient patient-1 --systolic 190 --diastolic 130
+
+# List all vitals for a patient
+go run ./cmd/cli list-vitals --patient patient-1
+
+# List all alerts for a patient
+go run ./cmd/cli list-alerts --patient patient-1
+```
+
+## Testing
+
+```bash
+make test
+```
+
+## Development
+
+If you need to modify the protobuf definitions in `proto/vitals/v1/*.proto`, you'll need to regenerate the Go code.
 
 **1. Install Protocol Buffers compiler (protoc):**
 
@@ -39,25 +69,12 @@ sudo apt install protobuf-compiler
 sudo dnf install protobuf-compiler
 ```
 
-**2. Install Go tools and generate proto files:**
+**2. Install Go protobuf tools:**
 ```bash
 make setup
+```
+
+**3. Regenerate proto files after making changes:**
+```bash
 make proto
-```
-
-## Run
-
-```bash
-make server
-go run ./cmd/cli insert-vital --patient patient-1 --systolic 120 --diastolic 80  # Insert vital 120/80 (normal)
-go run ./cmd/cli insert-vital --patient patient-1 --systolic 190 --diastolic 130  # Insert vital 190/130 (abnormal)
-go run ./cmd/cli list-vitals --patient patient-1
-go run ./cmd/cli list-alerts --patient patient-1
-make cli list-alerts
-```
-
-## Test
-
-```bash
-make test
 ```
