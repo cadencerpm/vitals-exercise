@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { InMemoryStore } from "../src/domain/store";
 import { PubSub } from "../src/domain/pubsub";
 import { Service } from "../src/domain/service";
-import { AlertStatusActive, EventTypeVitalReceived } from "../src/domain/models";
+import { AlertStatusActive, Event, EventTypeVitalReceived } from "../src/domain/models";
 import { InvalidVitalError, RequestError } from "../src/domain/errors";
 
 const uuidPattern =
@@ -105,4 +105,38 @@ test("service list vitals requires patient id", async () => {
     service.listVitals({ patientId: "   " }),
     RequestError
   );
+});
+
+test("service ingest is idempotent when publish times out", async () => {
+  class FlakyPublisher {
+    calls = 0;
+
+    async publish(_event: Event): Promise<void> {
+      this.calls++;
+      if (this.calls === 1) {
+        throw new Error("publish timed out");
+      }
+    }
+  }
+
+  const store = new InMemoryStore();
+  const publisher = new FlakyPublisher();
+  const service = new Service(store, publisher);
+
+  const takenAt = new Date("2024-01-15T10:30:00Z");
+
+  await assert.rejects(
+    service.ingestVital("patient-1", 120, 80, takenAt),
+    { message: "publish timed out" }
+  );
+
+  const vitalsAfterFailure = await store.listVitals({ patientId: "patient-1" });
+  assert.equal(vitalsAfterFailure.items.length, 1);
+  const firstId = vitalsAfterFailure.items[0].id;
+
+  const stored = await service.ingestVital("patient-1", 120, 80, takenAt);
+  const vitals = await store.listVitals({ patientId: "patient-1" });
+  assert.equal(vitals.items.length, 1);
+  assert.equal(vitals.items[0].id, firstId);
+  assert.equal(stored.id, firstId);
 });
