@@ -1,0 +1,21 @@
+{
+  "name": "vitals-node",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Minimal Fastify app for ingesting blood pressure vitals and creating alerts.",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/server.ts",
+    "test": "node --import tsx --test test/**/*.test.ts"
+  },
+  "dependencies": {
+    "fastify": "^4.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
