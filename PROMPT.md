@@ -6,15 +6,7 @@ You have a small service that ingests blood pressure readings, stores them, and 
 Run tests. At least one test fails. Fix the bug so tests pass.
 
 ## Part 2 — Extension
-Extend the service to support re-taking vital signs for abnormal readings:
-
-**Requirements:**
-1. When an abnormal blood pressure reading is detected, create an alert and prompt the patient to re-take the vital
-2. The system should prompt the patient at most once per alert
-3. If the patient re-takes the vital on their own (before being prompted), the system should:
-   - Skip sending the prompt
-   - Mark the alert as confirmed (indicating the abnormality was verified, not a measurement error)
-4. If any re-taken value (prompted or unprompted) is within the normal range, automatically resolve the alert
+Patients with abnormal readings should be notified to retake their vitals. Design and implement this feature.
 
 ## Goals:
 - correctness + tests

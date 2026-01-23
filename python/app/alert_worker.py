@@ -48,5 +48,6 @@ class AlertWorker:
 
         try:
             self._store.add_alert(alert)
+            print(f"[Alert] {alert.patient_id}: {alert.reason}")
         except Exception as exc:
             logging.warning("alert worker failed to store alert: %s", exc)

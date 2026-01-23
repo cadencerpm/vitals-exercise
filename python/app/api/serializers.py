@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from ..models import Alert, AlertStatus, Vital
+from ..models import Alert, AlertStatus, Message, MessageStatus, Vital
 
 
 def _to_unix(dt: datetime | None) -> int:
@@ -45,3 +45,14 @@ def _status_name(status: AlertStatus | None) -> str:
     if status is None:
         return AlertStatus.ACTIVE.name
     return status.name
+
+
+def message_to_dict(message: Message) -> dict:
+    return {
+        "id": message.id,
+        "patient_id": message.patient_id,
+        "content": message.content,
+        "status": message.status.name if message.status else MessageStatus.QUEUED.name,
+        "queued_at": _to_unix(message.queued_at),
+        "sent_at": _to_unix(message.sent_at),
+    }

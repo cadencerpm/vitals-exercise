@@ -1,60 +1,63 @@
 # Cadence Vitals Interview (Python)
 
 Minimal Python app for ingesting blood pressure vitals and creating alerts.
-This is a purposefully simplified toy implementation for interview use.
 
-## Repo map
+## Quick Start
 
-- `app/`: domain logic (service, store, pub/sub, alert worker, models)
-- `app/server.py`: Flask server entrypoint and wiring
-- `app/cli.py`: small CLI for inserting vitals and listing alerts
-- `app/api/`: Flask routes and JSON mappings
-- `tests/`: pytest tests for domain logic
-
-## Flow
-
-High-level vital lifecycle:
-- A vital arrives via HTTP (the CLI is just a thin client).
-- The service validates and stores the vital with a server-side received timestamp.
-- An event is published and the background worker evaluates thresholds.
-- If abnormal, an alert is created and stored; `GET /alerts` reads from that store.
-
-Note: Everything is in-memory, so restarting the server clears vitals/alerts.
-
-## Running the App
-
-From the `python/` directory:
-
-**1. Install dependencies:**
 ```bash
 python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-```
-
-**2. Start the server:**
-```bash
+source .venv/bin/activate  # or: source .venv/bin/activate.fish
+pip install -e .
 python -m app.server
 ```
 
-**3. In another terminal, use the CLI commands:**
-```bash
-# Insert a normal vital (120/80)
-python -m app.cli insert-vital --patient patient-1 --systolic 120 --diastolic 80
+A dashboard opens at http://127.0.0.1:5000 where you can insert vitals and see alerts.
 
-# Insert an abnormal vital (190/130) - this will trigger an alert
+## How It Works
+
+1. A vital is submitted (via dashboard or API)
+2. The service validates and stores it
+3. A `VITAL_RECEIVED` event is published
+4. The alert worker checks if it's abnormal (systolic > 180 or diastolic > 120)
+5. If abnormal, an alert is created and logged to the console
+
+Everything is in-memory—restarting the server clears all data.
+
+## Repo Structure
+
+```
+app/
+├── server.py          # Entrypoint, wires everything together
+├── service.py         # Business logic for ingesting vitals
+├── store.py           # In-memory storage
+├── pubsub.py          # Simple pub/sub for events
+├── alert_worker.py    # Background worker that creates alerts
+├── message_queue.py   # Message queue with simulated delays
+├── message_worker.py  # Background worker that processes messages
+├── models.py          # Data models (Vital, Alert, Message)
+└── api/
+    ├── vitals.py      # POST /vitals, GET /vitals
+    ├── alerts.py      # GET /alerts
+    └── dashboard.py   # Web UI at /
+```
+
+## CLI
+
+You can also use the CLI instead of the dashboard:
+
+```bash
+# Insert vitals
+python -m app.cli insert-vital --patient patient-1 --systolic 120 --diastolic 80
 python -m app.cli insert-vital --patient patient-1 --systolic 190 --diastolic 130
 
-# List all vitals for a patient
+# List data
 python -m app.cli list-vitals --patient patient-1
-
-# List all alerts for a patient
 python -m app.cli list-alerts --patient patient-1
 ```
 
 ## Testing
 
 ```bash
-python -m pip install -e ".[dev]"
+pip install -e ".[dev]"
 python -m pytest
 ```

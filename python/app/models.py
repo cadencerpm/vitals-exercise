@@ -18,6 +18,12 @@ class AlertStatus(Enum):
     AUTO_RESOLVED = "AUTO_RESOLVED"
 
 
+class MessageStatus(Enum):
+    QUEUED = "QUEUED"
+    PROCESSING = "PROCESSING"
+    SENT = "SENT"
+
+
 @dataclass
 class Vital:
     id: int = 0
@@ -57,3 +63,13 @@ def is_abnormal(vital: Vital) -> bool:
 
 def alert_reason(vital: Vital) -> str:
     return f"abnormal blood pressure {vital.systolic}/{vital.diastolic}"
+
+
+@dataclass
+class Message:
+    id: int = 0
+    patient_id: str = ""
+    content: str = ""
+    status: MessageStatus = MessageStatus.QUEUED
+    queued_at: datetime | None = None
+    sent_at: datetime | None = None

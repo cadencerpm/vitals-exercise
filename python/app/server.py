@@ -1,33 +1,48 @@
 from __future__ import annotations
 
-import argparse
 import threading
+import webbrowser
 
 from .app_factory import create_app
 from .alert_worker import AlertWorker
+from .message_queue import MessageQueue
+from .message_worker import MessageWorker
 from .pubsub import PubSub
 from .service import Service
 from .store import InMemoryStore
 
+HOST = "127.0.0.1"
+PORT = 5000
+
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Vitals HTTP server")
-    parser.add_argument("--host", default="127.0.0.1", help="listen host")
-    parser.add_argument("--port", type=int, default=5000, help="listen port")
-    args = parser.parse_args()
-
     store = InMemoryStore()
     pubsub = PubSub()
     service = Service(store, pubsub)
-    worker = AlertWorker(pubsub, store, buffer_size=16)
+
+    # Message queue for patient notifications (5-20 second simulated delay)
+    message_queue = MessageQueue(min_delay=5.0, max_delay=20.0)
+    message_worker = MessageWorker(message_queue)
+
+    # Alert worker
+    alert_worker = AlertWorker(pubsub, store, buffer_size=16)
 
     stop_event = threading.Event()
-    worker_thread = threading.Thread(target=worker.run, args=(stop_event,), daemon=True)
-    worker_thread.start()
 
-    app = create_app(service)
+    # Start background workers
+    threading.Thread(target=alert_worker.run, args=(stop_event,), daemon=True).start()
+    threading.Thread(target=message_worker.run, args=(stop_event,), daemon=True).start()
+
+    app = create_app(service, message_queue)
+
+    # Open browser to dashboard
+    url = f"http://{HOST}:{PORT}/"
+    threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+
+    print(f"Starting server at {url}")
+
     try:
-        app.run(host=args.host, port=args.port, use_reloader=False)
+        app.run(host=HOST, port=PORT, use_reloader=False)
     finally:
         stop_event.set()
         pubsub.close()
