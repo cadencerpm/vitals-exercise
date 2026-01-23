@@ -4,7 +4,11 @@
     "features": {
       "ghcr.io/devcontainers-contrib/features/protoc:1": {},
       "ghcr.io/devcontainers/features/node:1": {},
-      "ghcr.io/devcontainers/features/github-cli:1": {}
+      "ghcr.io/devcontainers/features/github-cli:1": {},
+      "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {},
+      "ghcr.io/jsburckhardt/devcontainer-features/codex:1": {},
+      "ghcr.io/devcontainers/features/python:1": {},
+      "ghcr.io/devcontainers-community/npm-features/typescript:1": {}
     },
     "customizations": {
       "vscode": {
@@ -23,6 +27,5 @@
         }
       }
     },
-    "postCreateCommand": "cd go && go mod download && make setup && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && go install github.com/air-verse/air@latest && npm install -g @anthropic-ai/claude-code @openai/codex",
     "remoteUser": "vscode"
-  }
+}
