@@ -1,6 +1,6 @@
 {
     "name": "Vitals Exercise",
-    "image": "mcr.microsoft.com/devcontainers/go:1.24",
+    "image": "mcr.microsoft.com/devcontainers/universal:linux",
     "features": {
       "ghcr.io/devcontainers-contrib/features/protoc:1": {},
       "ghcr.io/devcontainers/features/node:1": {},
@@ -8,7 +8,8 @@
       "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {},
       "ghcr.io/jsburckhardt/devcontainer-features/codex:1": {},
       "ghcr.io/devcontainers/features/python:1": {},
-      "ghcr.io/devcontainers-community/npm-features/typescript:1": {}
+      "ghcr.io/devcontainers-community/npm-features/typescript:1": {},
+      "ghcr.io/devcontainers/features/go:1": {}
     },
     "customizations": {
       "vscode": {
