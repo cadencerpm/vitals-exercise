@@ -1,0 +1,21 @@
+{
+    "name": "Vitals Exercise (Node)",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/node",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {},
+        "ghcr.io/jsburckhardt/devcontainer-features/codex:1": {}
+    },
+    "postCreateCommand": "npm install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "eamodio.gitlens"
+            ]
+        }
+    },
+    "remoteUser": "vscode"
+}
