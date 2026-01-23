@@ -13,9 +13,18 @@ class EventType(str, Enum):
 
 
 class AlertStatus(Enum):
+    """Alert lifecycle states.
+
+    ACTIVE: Initial state. Abnormal reading received, notification queued.
+    AUTO_RESOLVED: Patient submitted normal reading BEFORE notification was sent.
+    RESOLVED: Patient was notified, retook vitals, reading came back normal.
+    CONFIRMED_ABNORMAL: Patient was notified, retook vitals, reading still abnormal.
+    """
+
     ACTIVE = "ACTIVE"
     RESOLVED = "RESOLVED"
     AUTO_RESOLVED = "AUTO_RESOLVED"
+    CONFIRMED_ABNORMAL = "CONFIRMED_ABNORMAL"
 
 
 class MessageStatus(Enum):
