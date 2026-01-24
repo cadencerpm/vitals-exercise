@@ -6,14 +6,22 @@ import queue
 import threading
 
 from .models import Alert, AlertStatus, Event, EventType, alert_reason, is_abnormal
+from .message_queue import MessageQueue
 from .pubsub import PubSub
 from .store import Store
 
 
 class AlertWorker:
-    def __init__(self, pubsub: PubSub, store: Store, buffer_size: int) -> None:
+    def __init__(
+        self,
+        pubsub: PubSub,
+        store: Store,
+        message_queue: MessageQueue,
+        buffer_size: int,
+    ) -> None:
         self._subscription, self._cancel = pubsub.subscribe(buffer_size)
         self._store = store
+        self._message_queue = message_queue
 
     def run(self, stop_event: threading.Event) -> None:
         try:

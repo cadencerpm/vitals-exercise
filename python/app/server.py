@@ -25,7 +25,7 @@ def main() -> None:
     message_worker = MessageWorker(message_queue)
 
     # Alert worker
-    alert_worker = AlertWorker(pubsub, store, buffer_size=16)
+    alert_worker = AlertWorker(pubsub, store, message_queue, buffer_size=16)
 
     stop_event = threading.Event()
 

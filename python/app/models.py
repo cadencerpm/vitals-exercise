@@ -17,13 +17,13 @@ class AlertStatus(Enum):
 
     ACTIVE: Initial state. Abnormal reading received, notification queued.
     AUTO_RESOLVED: Patient submitted normal reading BEFORE notification was sent.
-    RESOLVED: Patient was notified, retook vitals, reading came back normal.
+    RESOLVED_BY_RETAKE: Patient was notified, retook vitals, reading came back normal.
     CONFIRMED_ABNORMAL: Patient was notified, retook vitals, reading still abnormal.
     """
 
     ACTIVE = "ACTIVE"
-    RESOLVED = "RESOLVED"
     AUTO_RESOLVED = "AUTO_RESOLVED"
+    RESOLVED_BY_RETAKE = "RESOLVED_BY_RETAKE"
     CONFIRMED_ABNORMAL = "CONFIRMED_ABNORMAL"
 
 

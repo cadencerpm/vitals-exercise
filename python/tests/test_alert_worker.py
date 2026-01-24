@@ -5,6 +5,7 @@ import threading
 import time
 
 from app.alert_worker import AlertWorker
+from app.message_queue import MessageQueue
 from app.models import AlertStatus, Event, EventType, Vital
 from app.pubsub import PubSub
 from app.store import InMemoryStore
@@ -13,7 +14,8 @@ from app.store import InMemoryStore
 def test_alert_worker_creates_alert_for_abnormal_vitals() -> None:
     store = InMemoryStore()
     pubsub = PubSub()
-    worker = AlertWorker(pubsub, store, buffer_size=8)
+    message_queue = MessageQueue(min_delay=0.0, max_delay=0.0)
+    worker = AlertWorker(pubsub, store, message_queue, buffer_size=8)
 
     stop_event = threading.Event()
     worker_thread = threading.Thread(target=worker.run, args=(stop_event,), daemon=True)
