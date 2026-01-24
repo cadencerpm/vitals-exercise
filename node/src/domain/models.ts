@@ -5,11 +5,16 @@ export type EventType = "VITAL_RECEIVED";
 
 export const EventTypeVitalReceived: EventType = "VITAL_RECEIVED";
 
-export type AlertStatus = "ACTIVE" | "RESOLVED" | "AUTO_RESOLVED";
+export type AlertStatus =
+  | "ACTIVE"
+  | "AUTO_RESOLVED"
+  | "RESOLVED_BY_RETAKE"
+  | "CONFIRMED_ABNORMAL";
 
 export const AlertStatusActive: AlertStatus = "ACTIVE";
-export const AlertStatusResolved: AlertStatus = "RESOLVED";
 export const AlertStatusAutoResolved: AlertStatus = "AUTO_RESOLVED";
+export const AlertStatusResolvedByRetake: AlertStatus = "RESOLVED_BY_RETAKE";
+export const AlertStatusConfirmedAbnormal: AlertStatus = "CONFIRMED_ABNORMAL";
 
 export interface Vital {
   id: string;

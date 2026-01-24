@@ -1,3 +1,4 @@
+import { Message } from "../domain/messageQueue";
 import { Alert, Vital } from "../domain/models";
 
 export function vitalToResponse(vital: Vital) {
@@ -25,6 +26,17 @@ export function alertToResponse(alert: Alert) {
     reason: alert.reason,
     createdAt: toUnixSeconds(alert.created),
     status: alert.status,
+  };
+}
+
+export function messageToResponse(message: Message) {
+  return {
+    id: message.id,
+    patientId: message.patientId,
+    content: message.content,
+    status: message.status,
+    queuedAt: toUnixSeconds(message.queuedAt),
+    sentAt: message.sentAt ? toUnixSeconds(message.sentAt) : 0,
   };
 }
 
