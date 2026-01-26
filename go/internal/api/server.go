@@ -104,10 +104,12 @@ func toProtoAlert(alert app.Alert) *vitalsv1.Alert {
 
 func toProtoAlertStatus(status app.AlertStatus) vitalsv1.AlertStatus {
 	switch status {
-	case app.AlertStatusResolved:
-		return vitalsv1.AlertStatus_ALERT_STATUS_RESOLVED
 	case app.AlertStatusAutoResolved:
 		return vitalsv1.AlertStatus_ALERT_STATUS_AUTO_RESOLVED
+	case app.AlertStatusResolvedByRetake:
+		return vitalsv1.AlertStatus_ALERT_STATUS_RESOLVED // Map to RESOLVED for now
+	case app.AlertStatusConfirmedAbnormal:
+		return vitalsv1.AlertStatus_ALERT_STATUS_ACTIVE // Map to ACTIVE for now
 	default:
 		return vitalsv1.AlertStatus_ALERT_STATUS_ACTIVE
 	}

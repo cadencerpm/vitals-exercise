@@ -9,7 +9,7 @@ import (
 func TestAlertWorkerCreatesAlertForAbnormalVitals(t *testing.T) {
 	store := NewInMemoryStore()
 	pubsub := NewPubSub()
-	worker := NewAlertWorker(pubsub, store, 8)
+	worker := NewAlertWorker(pubsub, store, 8, nil)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

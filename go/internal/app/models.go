@@ -26,9 +26,10 @@ type Vital struct {
 type AlertStatus int32
 
 const (
-	AlertStatusActive       AlertStatus = 0
-	AlertStatusResolved     AlertStatus = 1
-	AlertStatusAutoResolved AlertStatus = 2
+	AlertStatusActive            AlertStatus = 0
+	AlertStatusAutoResolved      AlertStatus = 1
+	AlertStatusResolvedByRetake  AlertStatus = 2
+	AlertStatusConfirmedAbnormal AlertStatus = 3
 )
 
 type Alert struct {
