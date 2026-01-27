@@ -1,6 +1,7 @@
 {
     "name": "Vitals Exercise (Node)",
     "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bookworm",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/node",
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {},

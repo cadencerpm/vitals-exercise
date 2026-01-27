@@ -1,6 +1,7 @@
 {
     "name": "Vitals Exercise (Python)",
     "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/python",
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {},

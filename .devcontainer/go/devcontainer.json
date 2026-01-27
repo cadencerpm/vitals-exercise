@@ -1,6 +1,7 @@
 {
     "name": "Vitals Exercise (Go)",
     "image": "mcr.microsoft.com/devcontainers/go:1.24",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/go",
     "features": {
         "ghcr.io/devcontainers-contrib/features/protoc:1": {},
