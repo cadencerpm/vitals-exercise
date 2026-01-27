@@ -7,6 +7,7 @@ const DASHBOARD_HTML = `
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Vitals Monitor</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }

@@ -67,13 +67,6 @@ export class AlertWorker {
       });
 
       console.log(`[Alert] ${event.vital.patientId}: ${reason}`);
-
-      if (this.messageQueue) {
-        this.messageQueue.enqueue(
-          event.vital.patientId,
-          `Alert: ${reason}. Please retake your vitals.`
-        );
-      }
     } catch (error) {
       console.warn("alert worker failed to store alert", error);
     }
