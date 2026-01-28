@@ -8,7 +8,7 @@
         "ghcr.io/anthropics/devcontainer-features/claude-code:1": {},
         "ghcr.io/devcontainers/features/node:1": {}
     },
-    "postCreateCommand": "pip install -e '.[dev]' && npm install -g @openai/codex",
+    "onCreateCommand": "pip install -e '.[dev]' && npm install -g @openai/codex",
     "customizations": {
         "vscode": {
             "extensions": [
