@@ -9,6 +9,7 @@
         "ghcr.io/devcontainers/features/node:1": {}
     },
     "onCreateCommand": "go mod download && go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && npm install -g @openai/codex && curl -fsSL https://claude.ai/install.sh | bash",
+    "postCreateCommand": "echo '{\"hasCompletedOnboarding\": true}' > ~/.claude.json",
     "customizations": {
         "vscode": {
             "extensions": [
