@@ -6,7 +6,7 @@
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {},
     },
-    "onCreateCommand": "npm install && npm install -g @openai/codex && curl -fsSL https://claude.ai/install.sh | bash",
+    "onCreateCommand": "sudo apt-get update && sudo apt-get install -y vim jq tree ripgrep wget && npm install && npm install -g @openai/codex && curl -fsSL https://claude.ai/install.sh | bash",
     "postCreateCommand": "echo '{\"hasCompletedOnboarding\": true}' > ~/.claude.json",
     "customizations": {
         "vscode": {
