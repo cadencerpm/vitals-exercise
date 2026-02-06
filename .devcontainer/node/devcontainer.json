@@ -5,9 +5,8 @@
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/node",
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {},
-        "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
     },
-    "onCreateCommand": "npm install && npm install -g @openai/codex",
+    "onCreateCommand": "npm install && npm install -g @openai/codex && curl -fsSL https://claude.ai/install.sh | bash",
     "customizations": {
         "vscode": {
             "extensions": [

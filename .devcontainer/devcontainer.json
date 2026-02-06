@@ -6,10 +6,9 @@
     "features": {
         "ghcr.io/devcontainers-contrib/features/protoc:1": {},
         "ghcr.io/devcontainers/features/github-cli:1": {},
-        "ghcr.io/anthropics/devcontainer-features/claude-code:1": {},
         "ghcr.io/devcontainers/features/node:1": {}
     },
-    "onCreateCommand": "go mod download && go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && npm install -g @openai/codex",
+    "onCreateCommand": "go mod download && go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && npm install -g @openai/codex && curl -fsSL https://claude.ai/install.sh | bash",
     "customizations": {
         "vscode": {
             "extensions": [
