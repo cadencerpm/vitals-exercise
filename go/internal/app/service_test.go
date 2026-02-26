@@ -2,6 +2,8 @@ package app
 
 import (
 	"context"
+	"errors"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -93,27 +95,41 @@ func TestServiceListAlertsFiltersByPatient(t *testing.T) {
 	}
 }
 
-func TestServiceListVitalsFiltersByPatient(t *testing.T) {
+type flakyPublisher struct {
+	calls int32
+}
+
+func (p *flakyPublisher) Publish(ctx context.Context, _ Event) error {
+	if atomic.AddInt32(&p.calls, 1) == 1 {
+		<-ctx.Done()
+		return ctx.Err()
+	}
+	return nil
+}
+
+func TestServiceIngestRetryShouldBeIdempotentAfterPublishTimeout(t *testing.T) {
 	store := NewInMemoryStore()
-	pubsub := NewPubSub()
-	service := NewService(store, pubsub)
+	pub := &flakyPublisher{}
+	service := NewService(store, pub)
 
-	ctx := context.Background()
-	if _, err := store.AddVital(ctx, Vital{PatientID: "patient-1"}); err != nil {
-		t.Fatalf("add vital: %v", err)
-	}
-	if _, err := store.AddVital(ctx, Vital{PatientID: "patient-2"}); err != nil {
-		t.Fatalf("add vital: %v", err)
+	timeoutCtx, timeoutCancel := context.WithTimeout(context.Background(), 25*time.Millisecond)
+	defer timeoutCancel()
+
+	if _, err := service.IngestVital(timeoutCtx, "patient-1", 120, 80, time.Now().UTC()); err == nil {
+		t.Fatal("expected ingest to fail due to publish timeout")
+	} else if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("expected deadline exceeded error, got %v", err)
 	}
 
-	vitals, err := service.ListVitals(ctx, "patient-1")
+	if _, err := service.IngestVital(context.Background(), "patient-1", 120, 80, time.Now().UTC()); err != nil {
+		t.Fatalf("retry ingest failed: %v", err)
+	}
+
+	vitals, err := store.ListVitals(context.Background())
 	if err != nil {
 		t.Fatalf("list vitals failed: %v", err)
 	}
 	if len(vitals) != 1 {
-		t.Fatalf("expected 1 vital, got %d", len(vitals))
-	}
-	if vitals[0].PatientID != "patient-1" {
-		t.Fatalf("unexpected patient id: %s", vitals[0].PatientID)
+		t.Fatalf("expected 1 vital after retry, got %d", len(vitals))
 	}
 }
