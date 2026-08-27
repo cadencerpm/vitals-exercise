@@ -115,13 +115,14 @@ func TestServiceIngestRetryShouldBeIdempotentAfterPublishTimeout(t *testing.T) {
 	timeoutCtx, timeoutCancel := context.WithTimeout(context.Background(), 25*time.Millisecond)
 	defer timeoutCancel()
 
-	if _, err := service.IngestVital(timeoutCtx, "patient-1", 120, 80, time.Now().UTC()); err == nil {
+	timeNow := time.Now().UTC()
+	if _, err := service.IngestVital(timeoutCtx, "patient-1", 120, 80, timeNow); err == nil {
 		t.Fatal("expected ingest to fail due to publish timeout")
 	} else if !errors.Is(err, context.DeadlineExceeded) {
 		t.Fatalf("expected deadline exceeded error, got %v", err)
 	}
 
-	if _, err := service.IngestVital(context.Background(), "patient-1", 120, 80, time.Now().UTC()); err != nil {
+	if _, err := service.IngestVital(context.Background(), "patient-1", 120, 80, timeNow); err != nil {
 		t.Fatalf("retry ingest failed: %v", err)
 	}
 

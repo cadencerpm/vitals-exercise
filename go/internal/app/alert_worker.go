@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 )
@@ -66,9 +65,4 @@ func (w *AlertWorker) handleEvent(ctx context.Context, event Event) {
 	}
 
 	log.Printf("[Alert] %s: %s", event.Vital.PatientID, reason)
-
-	if w.messageQueue != nil {
-		content := fmt.Sprintf("Alert: %s. Please retake your vitals.", reason)
-		w.messageQueue.Enqueue(event.Vital.PatientID, content)
-	}
 }
